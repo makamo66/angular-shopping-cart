@@ -20,7 +20,7 @@ products: any[];
 quantity: number;
 product_price: number;
 product=0;
-totals: any[];
+totals : number[ ] = [ ];
 grandtotal: number;
 total: number;
 
@@ -40,6 +40,8 @@ get grandTotal() {
 var i;
 var sub_total;
 var grand_total = 0;
+this.product_price = parseFloat(this.product_price) || 0;
+this.quantity = parseInt(this.quantity) || 0;
 sub_total = this.product_price * this.quantity;
 this.totals.push(sub_total);
 for (i = 0; i < this.totals.length; i++) {
