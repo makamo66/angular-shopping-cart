@@ -37,19 +37,23 @@ localStorage.setItem('items', JSON.stringify(this.items));
 }
 get grandTotal() {
 
-var i;
-var sub_total;
-var grand_total = 0;
-this.product_price = parseFloat(this.product_price) || 0;
-this.quantity = parseInt(this.quantity) || 0;
+let i;
+let sub_total = 0;
+let grand_total = 0;
+
 sub_total = this.product_price * this.quantity;
-this.totals.push(sub_total);
+
+if (typeof this.product_price  === "undefined") {
+    return 0;
+} else {
+	   this.totals.push(sub_total);
 for (i = 0; i < this.totals.length; i++) {
  grand_total += this.totals[i];
 }
 return grand_total;
-
 }
+}
+
 
  constructor(public db: AngularFireDatabase){
    db.list('/products')
