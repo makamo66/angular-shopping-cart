@@ -25,9 +25,6 @@ grandtotal: number;
 total: number;
 
 public onSubmit(thumbnail, quantity, product_name, product_price){
-
-
-
 this.product_price = parseFloat(product_price);
 const data = {
    thumbnail,
@@ -37,17 +34,14 @@ const data = {
 };
 this.items.push(data);
 localStorage.setItem('items', JSON.stringify(this.items));
-
-
 }
 get grandTotal() {
 
 var i;
 var sub_total;
 var grand_total = 0;
-
-	   sub_total = this.product_price * this.quantity;
-	   this.totals.push(sub_total);
+sub_total = this.product_price * this.quantity;
+this.totals.push(sub_total);
 for (i = 0; i < this.totals.length; i++) {
  grand_total += this.totals[i];
 }
