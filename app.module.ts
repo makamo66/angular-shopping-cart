@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { AuthService } from './shared/auth.service';
 import { FormsModule, FormControl, ReactiveFormsModule, NgForm } from '@angular/forms';
-import { GrandTotalPipe } from './grandtotal.pipe';
+
 //import { ReactiveFormsComponent } from './reactive-forms.component';
 
 
