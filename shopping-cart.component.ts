@@ -15,6 +15,7 @@ import * as firebase from 'firebase/app';
 
 export class ShoppingCartComponent implements OnInit {
 myForm: FormGroup;
+yourForm: FormGroup;
 
 items = [];
 //items  : any[];
@@ -127,6 +128,9 @@ setStorageItems(items: any[]) {
 ngOnInit(): void {
    this.myForm = new FormGroup({
        int: new FormControl()
+    });
+   this.yourForm = new FormGroup({
+       //int: new FormControl()
     });
 	this.items.length = 0;
    this.items = this.getStorageItems();
