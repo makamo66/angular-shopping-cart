@@ -1,7 +1,7 @@
 <div *ngIf="(items.length !== 0);">
 
 <form name="yourForm" [formGroup]="yourForm">
-<table border='1' *ngFor="let item of items; let i = index">
+<table border='1'>
 
 <tr>
 <th>Remove&nbsp;&nbsp;&nbsp;</th>
@@ -12,7 +12,7 @@
 <th>Sub Total</th>
 </tr>
 
-<tr>
+<tr *ngFor="let item of items; let i = index">
 <td>
 <button type="button" (click)="deleteItem(i)" class="deletebtn">X</button></td>
 <td><img style="width: 100px; height: 100px;" src="../assets/images/gallery/{{item.thumbnail}}" /></td>
@@ -30,9 +30,9 @@
 
 <form [formGroup]="myForm">
 
-<div id="cartItemsList" *ngFor="let product of products">
+<div id="cartItemsList">
 
-<ul>
+<ul *ngFor="let product of products">
 
   <li>
 	<div name="product_name">{{product.name }}</div>
