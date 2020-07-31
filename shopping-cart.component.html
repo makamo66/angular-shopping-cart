@@ -1,6 +1,6 @@
 <div *ngIf="(items.length !== 0);">
 
-<form name="yourForm">
+<form name="yourForm" [formGroup]="yourForm">
 <table border='1' *ngFor="let item of items; let i = index">
 
 <tr>
