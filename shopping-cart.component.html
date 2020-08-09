@@ -1,5 +1,4 @@
-<div *ngIf="(items.length !== 0);">
-
+<div *ngIf="items.length > 0;">
 <form name="yourForm" [formGroup]="yourForm">
 <table border='1'>
 
@@ -7,6 +6,7 @@
 <th>Remove&nbsp;&nbsp;&nbsp;</th>
 <th width='100'>Your Product&nbsp;&nbsp;</th>
 <th>Quantity</th>
+<th>ID</th>
 <th>Description</th>
 <th>Price per item</th>
 <th>Sub Total</th>
@@ -17,12 +17,13 @@
 <button type="button" (click)="deleteItem(i)" class="deletebtn">X</button></td>
 <td><img style="width: 100px; height: 100px;" src="../assets/images/gallery/{{item.thumbnail}}" /></td>
 <td>{{item.quantity}} </td>
-<td><div class="name">{{item.product_name }} </div></td>
+<td>{{item.id}} </td>
+<td>{{item.product_name }}</td>
 <td>{{item.product_price | currency:'USD':true }} </td>
 <td>{{item.quantity * item.product_price | currency:'USD':true }}</td>
 
 </tr>
-<tr><td></td><td></td><td></td><td></td><td><b>Grand Total</b> </td><td><b>{{ grandTotal | currency:'USD':true  }}</b></td>
+<tr><td></td><td></td><td></td><td></td><td></td><td><b>Grand Total</b> </td><td><b>{{grandTotal | currency:'USD':true }}</b></td></tr>
 </table>
 
 </form>
@@ -43,7 +44,7 @@
 <input class="num" [value]="product.nullValue" placeholder="0" formControlName="int" type="number" required min="0" />
 <button class="plus-btn" (click)="plus(product)" type="button">
 <img src="../assets/images/plus.svg" alt="plus" /></button>
-	<button type="submit" class="btnAddAction" (click)="onSubmit(product.thumbnail, quantity, product.name, product.price )">Add to Cart</button>
+	<button type="submit" class="btnAddAction" (click)="onSubmit(product.id, product.thumbnail, quantity, product.name, product.price )">Add to Cart</button>
   </li>
 </ul>
 </div>
