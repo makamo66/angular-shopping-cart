@@ -18,15 +18,11 @@ myForm: FormGroup;
 yourForm: FormGroup;
 
 items = [];
-//items = Array();
-//items : string[] = new Array<string>();
+
 products: any[];
 quantity: number;
-//product_name: string;
+
 product_price: number;
-
-//totals : number[ ] = [ ];
-
 totals = [];
 
 //isSubmitted : boolean;
@@ -49,24 +45,26 @@ var data = {
 
 
 this.isSubmitted = true;
-   //var retrieverObject = [];
-var retrieverObject = localStorage.getItem('items');
-    var retrieveObject = JSON.parse(retrieverObject);
-alert(retrieverObject);
-alert(id);
-  if (retrieverObject === null || retrieverObject === '[]' ) {
-    this.items.push(data);
-    localStorage.setItem(this.storageKey, JSON.stringify(this.items));
-  } else {
-    retrieveObject.forEach(el => {
-  if (el.id == id && retrieverObject !== '[]' ){
-        this.quantity += quantity;
-      } else {
-        this.items.push(data);
-        localStorage.setItem(this.storageKey, JSON.stringify(this.items));
-      }
-    })    
- }
+
+ // Get the saved stringified object from cache
+const retrieverObject: string = localStorage.getItem(this.storageKey) || '';
+// Parse it to an array, or set to a blank array, if there is no data
+const retrieveObject: Array<any> = retrieverObject ? JSON.parse(retrieverObject) : [];
+// Find the item from the array
+let presentItem = retrieveObject.find(item => item.id === id);
+// Update the data, if the item is found
+//alert("This is the presentItem " + presentItem);
+if (presentItem) {
+  //this.quantity += quantity;
+  // If the stored objects quantity needs to be updated
+  presentItem.quantity += quantity;
+} else {
+  // Else if not found in the saved array, push the new object
+  retrieveObject.push(data);
+}
+// Set the new object to the same key
+localStorage.setItem(this.storageKey, JSON.stringify(retrieveObject));
+location.reload(true);
 }
 get grandTotal() {
 
@@ -115,17 +113,10 @@ this.quantity=product.nullValue;
 }
 
 deleteItem(i){
-this.totals = [];
-this.isSubmitted = true;
-this.grandTotal;
-//this.grandTotal = this.grandTotal();
+
 this.items.splice(i,1);
-//this.items.slice(i,1);
-//this.items = this.items.filter((_, j) => j !== i);
+localStorage.removeItem(this.storageKey);
 this.setStorageItems(this.items);
-
-
-console.log("forum code");
 }
 
 
