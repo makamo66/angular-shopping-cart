@@ -43,7 +43,6 @@ var data = {
    product_price
 };
 
-
 this.isSubmitted = true;
 
  // Get the saved stringified object from cache
@@ -51,20 +50,14 @@ const retrieverObject: string = localStorage.getItem(this.storageKey) || '';
 // Parse it to an array, or set to a blank array, if there is no data
 const retrieveObject: Array<any> = retrieverObject ? JSON.parse(retrieverObject) : [];
 // Find the item from the array
-let presentItem = retrieveObject.find(item => item.id === id);
-// Update the data, if the item is found
-//alert("This is the presentItem " + presentItem);
-if (presentItem) {
-  //this.quantity += quantity;
-  // If the stored objects quantity needs to be updated
-  presentItem.quantity += quantity;
-} else {
-  // Else if not found in the saved array, push the new object
-  retrieveObject.push(data);
-}
-// Set the new object to the same key
-localStorage.setItem(this.storageKey, JSON.stringify(retrieveObject));
-location.reload(true);
+ let presentItem = this.items.find(item => item.id === id);
+  if (presentItem) {
+    this.quantity += quantity;
+    presentItem.quantity += quantity;
+  } else {
+    this.items.push(data);
+  }
+  this.setStorageItems(this.items);
 }
 get grandTotal() {
 
@@ -107,18 +100,16 @@ minus(product:any){
 if(product.nullValue < 0) {
 product.nullValue = 0; 
 } 
+
 this.quantity=product.nullValue;   
   return this.quantity;
 
 }
 
 deleteItem(i){
-
-this.items.splice(i,1);
-localStorage.removeItem(this.storageKey);
-this.setStorageItems(this.items);
+  this.items.splice(i,1);
+  this.setStorageItems(this.items);
 }
-
 
  writeValue(): void {
 
@@ -133,20 +124,19 @@ this.setStorageItems(this.items);
   
    setDisabledState(): void {
   }
-getStorageItems(): any[] {
-    try {
-	return JSON.parse(localStorage.getItem('MyDataStorageKey'))
-       // return JSON.parse(localStorage.getItem('items'));
-    } catch(err) {
-        console.warn(err);
-        return [];
-    }
+
+getStorageItems() {
+  const retrieverObject: string = localStorage.getItem(this.storageKey) || '';
+  return JSON.parse(retrieverObject) || [];
 }
 
+
 setStorageItems(items: any[]) {
-    localStorage.setItem('items', JSON.stringify(items));
+  localStorage.setItem(this.storageKey, JSON.stringify(items));
 }
 ngOnInit(): void {
+
+this.items = this.getStorageItems();
    this.myForm = new FormGroup({
        int: new FormControl()
     });
@@ -154,7 +144,7 @@ ngOnInit(): void {
        //int: new FormControl()
     });	
    
- this.items = this.getStorageItems();
+ 
   
   }
  
