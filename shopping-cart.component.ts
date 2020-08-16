@@ -77,7 +77,7 @@ if  (this.isSubmitted == true) {
                 for (i = 0; i < this.totals.length; i++) {
                         grand_total += this.totals[i];
                 }
-		//this.isSubmitted = false;
+		this.isSubmitted = false;
         return grand_total;
 }
 
@@ -109,6 +109,9 @@ this.quantity=product.nullValue;
 deleteItem(i){
   this.items.splice(i,1);
   this.setStorageItems(this.items);
+  console.log("removed");
+  //this.isSubmitted = true;
+  //this.grandTotal;
 }
 
  writeValue(): void {
