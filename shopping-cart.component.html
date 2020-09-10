@@ -6,7 +6,6 @@
 <th>Remove&nbsp;&nbsp;&nbsp;</th>
 <th width='100'>Your Product&nbsp;&nbsp;</th>
 <th>Quantity</th>
-<th>ID</th>
 <th>Description</th>
 <th>Price per item</th>
 <th>Sub Total</th>
@@ -17,17 +16,22 @@
 <button type="button" (click)="deleteItem(i)" class="deletebtn">X</button></td>
 <td><img style="width: 100px; height: 100px;" src="../assets/images/gallery/{{item.thumbnail}}" /></td>
 <td>{{item.quantity}} </td>
-<td>{{item.id}} </td>
 <td>{{item.product_name }}</td>
 <td>{{item.product_price | currency:'USD':true }} </td>
 <td>{{item.quantity * item.product_price | currency:'USD':true }}</td>
 
 </tr>
-<tr><td></td><td></td><td></td><td></td><td></td><td><b>Grand Total</b> </td><td><b>{{grandTotal | currency:'USD':true }}</b></td></tr>
+<tr><td></td><td></td><td></td><td></td><td><b>Grand Total</b> </td><td><b>{{ grandTotal | currency:'USD':true }}</b></td></tr>
 </table>
 
 </form>
 </div>
+
+<form [formGroup]="submitForm" (ngSubmit)="checkOut()">
+<input type="submit" value="Check Out">
+</form>
+<!--<a [routerLink]="'/check-out'" routerLinkActive="active"><</a><button (click)="checkOut()" type="submit"> Check Out</button>-->
+
 
 <form [formGroup]="myForm">
 

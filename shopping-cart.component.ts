@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, FormControl, ReactiveFormsModule, NgForm, FormGroup} from '@angular/forms';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase/app';
+import { ActivatedRoute } from '@angular/router';
+//import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouteConfig} from 'angular2/router';
+import { Routes, RouterModule, Router } from "@angular/router";
+import { CheckOutComponent } from '../check-out/check-out.component';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -16,12 +20,13 @@ import * as firebase from 'firebase/app';
 export class ShoppingCartComponent implements OnInit {
 myForm: FormGroup;
 yourForm: FormGroup;
+submitForm: FormGroup;
 
 items = [];
 
 products: any[];
 quantity: number;
-
+public grandTotal: number;
 product_price: number;
 totals = [];
 
@@ -58,35 +63,26 @@ const retrieveObject: Array<any> = retrieverObject ? JSON.parse(retrieverObject)
     this.items.push(data);
   }
   this.setStorageItems(this.items);
-}
-get grandTotal() {
-
-let i;
-let sub_total = 0;
-let grand_total = 0;
-//this.totals = [];
-///if  (this.isSubmitted() == true) {
-if  (this.isSubmitted == true) {
- if (typeof this.product_price  !== "undefined" && typeof this.quantity  !== "undefined") {
-                                sub_total = this.product_price * this.quantity;
-                                this.totals.push(sub_total);
-                        }
-                }
-                          
-                                
-                for (i = 0; i < this.totals.length; i++) {
-                        grand_total += this.totals[i];
-                }
-		this.isSubmitted = false;
-        return grand_total;
+  this.calcGrandTotal(this.items);
 }
 
- constructor(public db: AngularFireDatabase, private cd: ChangeDetectorRef){
+// constructor(public db: AngularFireDatabase){
+constructor(public db: AngularFireDatabase, public router: Router, private route: ActivatedRoute){
+
    db.list('/products')
    .valueChanges().subscribe(products=>{
    this.products=products;
    });
+   
+    //this.grandTotal = 0;
   }
+
+public checkOut(): void {
+alert("In Function");
+//this.router.navigate(['/check-out'], {relativeTo: this.route});
+this.router.navigate(['check-out']);
+
+}
 
 plus(product:any){
   product.nullValue++;
@@ -106,12 +102,18 @@ this.quantity=product.nullValue;
 
 }
 
+
+calcGrandTotal(items: any) {
+    this.grandTotal = this.items.reduce((acc, item: any)=> {
+      return acc + (item.quantity * item.product_price);
+    }, 0);
+  }
+
 deleteItem(i){
   this.items.splice(i,1);
   this.setStorageItems(this.items);
-  console.log("removed");
-  //this.isSubmitted = true;
-  //this.grandTotal;
+  this.calcGrandTotal(this.items);
+  console.log("TEST AGAIN");
 }
 
  writeValue(): void {
@@ -140,23 +142,18 @@ setStorageItems(items: any[]) {
 ngOnInit(): void {
 
 this.items = this.getStorageItems();
+
+this.calcGrandTotal(this.items);
+this.submitForm = new FormGroup({ 
+});	
+ 
    this.myForm = new FormGroup({
        int: new FormControl()
     });
    this.yourForm = new FormGroup({
-       //int: new FormControl()
+      
     });	
-   
  
-  
   }
- 
-   ngAfterContentChecked() {
-    this.cd.detectChanges();
-  } 
-  ngAfterViewInit() {
-this.cd.detectChanges();
-}
-    
 
 }
